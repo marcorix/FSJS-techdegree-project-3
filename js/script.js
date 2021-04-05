@@ -16,11 +16,23 @@ title.addEventListener('change', (e) => {
   }
 });
 
+// T-shirt design handler
 designSelect.addEventListener('change', (e) => {
   colorSelect.disabled = false;
+  const design = e.target.value;
+
+  //   loop trhouth the options of the Color select element
   for (let i = 1; i < colorSelect.options.length; i++) {
-    const design = e.target.value;
-    const theme = colorSelect.options[i].getAttribute('data-theme');
-    console.log(theme);
+    const element = colorSelect.options[i];
+    const theme = element.getAttribute('data-theme');
+
+    // Chec the deisgn selected
+    if (designSelect.value !== theme) {
+      element.hidden = true;
+      //   element.setAttribute(selected, false);
+    } else {
+      element.hidden = false;
+      //   element.setAttribute(selected, true);
+    }
   }
 });
