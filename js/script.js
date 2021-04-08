@@ -53,6 +53,7 @@ let totalCost = 0;
 
 registerFieldset.addEventListener('change', (e) => {
   const singleCost = parseInt(e.target.getAttribute('data-cost'));
+
   if (e.target.checked) {
     totalCost += singleCost;
   } else {
@@ -80,3 +81,102 @@ paymentSelect.addEventListener('change', (e) => {
     bitcoinDiv.style.display = 'none';
   }
 });
+
+// FORM VALIDATION
+
+const form = document.querySelector('form');
+const emailInput = document.getElementById('email');
+const ccNumInput = document.getElementById('cc-num');
+const zipInput = document.getElementById('zip');
+const cvvInput = document.getElementById('cvv');
+
+function isValidName() {
+  const nameOk = /[a-z]/i.test(nameInput.value);
+
+  if (!nameOk) {
+    notValid(nameInput);
+  } else {
+    valid(nameInput);
+  }
+  return nameOk;
+}
+
+function isValidEmail() {
+  const emailOk = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
+  if (!emailOk) {
+    notValid(emailInput);
+  } else {
+    valid(emailInput);
+  }
+
+  return emailOk;
+}
+
+function isActivitySelected() {
+  let activitySelected = false;
+
+  if (totalCost === 0) {
+    notValid(registerFieldset.firstElementChild);
+  } else {
+    valid(registerFieldset.firstElementChild);
+    activitySelected = true;
+  }
+  return activitySelected;
+}
+
+function isValidPayment() {
+  let ccDataOk = true;
+
+  if (paymentSelect.options[1].selected) {
+    let ccNumOk = /^\d{13,16}$/.test(ccNumInput.value);
+    let zipOk = /^\d{5}$/.test(zipInput.value);
+    let cvvOk = /^\d{3}$/.test(cvvInput.value);
+
+    if (!ccNumOk) {
+      console.log('Please insert the right credit card digits');
+      ccDataOk = false;
+    } else if (!zipOk) {
+      console.log('Please insert the zip number');
+      ccDataOk = false;
+    } else if (!cvvOk) {
+      console.log('Please insert the CVV number');
+      ccDataOk = false;
+    }
+  }
+  return ccDataOk;
+}
+
+form.addEventListener('submit', (e) => {
+  if (
+    !isValidName() ||
+    !isValidEmail() ||
+    !isActivitySelected() ||
+    !isValidPayment()
+  ) {
+    e.preventDefault();
+  }
+});
+
+// ACCESSIBILITY
+
+const inputCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+for (let i = 0; i < inputCheckboxes.length; i++) {
+  const element = inputCheckboxes[i];
+  element.addEventListener('focus', () => {
+    element.parentElement.classList.add('focus');
+  });
+  element.addEventListener('blur', () => {
+    element.parentElement.classList.remove('focus');
+  });
+}
+
+function valid(element) {
+  element.parentElement.classList.add('valid');
+  element.parentElement.classList.remove('not-valid');
+  element.parentElement.lastElementChild.style.display = 'none';
+}
+function notValid(element) {
+  element.parentElement.classList.add('not-valid');
+  element.parentElement.classList.remove('valid');
+  element.parentElement.lastElementChild.style.display = 'block';
+}
