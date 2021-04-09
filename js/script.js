@@ -6,6 +6,7 @@ const paymentSelect = document.getElementById('payment');
 const paypalDiv = document.getElementById('paypal');
 const bitcoinDiv = document.getElementById('bitcoin');
 
+// Set the default options
 window.addEventListener('load', () => {
   nameInput.focus();
   otherJobInput.style.display = 'none';
@@ -17,6 +18,7 @@ window.addEventListener('load', () => {
 
 // BASIC INFO
 const jobRoleSelect = document.getElementById('title');
+// Show the other job role input only when selected
 title.addEventListener('change', (e) => {
   if (e.target.value === 'other') {
     otherJobInput.style.display = 'inline-block';
@@ -133,20 +135,35 @@ function isValidPayment() {
     let cvvOk = /^\d{3}$/.test(cvvInput.value);
 
     if (!ccNumOk) {
-      console.log('Please insert the right credit card digits');
+      notValid(ccNumInput);
       ccDataOk = false;
-    } else if (!zipOk) {
-      console.log('Please insert the zip number');
+    } else {
+      valid(ccNumInput);
+    }
+
+    if (!zipOk) {
+      notValid(zipInput);
       ccDataOk = false;
-    } else if (!cvvOk) {
-      console.log('Please insert the CVV number');
+    } else {
+      valid(zipInput);
+    }
+
+    if (!cvvOk) {
+      notValid(cvvInput);
       ccDataOk = false;
+    } else {
+      valid(cvvInput);
     }
   }
   return ccDataOk;
 }
 
 form.addEventListener('submit', (e) => {
+  isValidName();
+  isValidEmail();
+  isActivitySelected();
+  isValidPayment();
+
   if (
     !isValidName() ||
     !isValidEmail() ||
