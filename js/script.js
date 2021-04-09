@@ -51,13 +51,42 @@ designSelect.addEventListener('change', (e) => {
 const registerFieldset = document.getElementById('activities');
 const activitiesTotalCost = document.getElementById('activities-cost');
 
+// Collect all the activities checkboxes
+const inputCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+
 // Create a variable fot the total cost
 let totalCost = 0;
 
-// Add or remove costs from the total cost
 registerFieldset.addEventListener('change', (e) => {
+  // Get the day and time of the activity selected
+  const dayAndTimeSelected = e.target.getAttribute('data-day-and-time');
+
+  // Loop over  all the activities and check and then disable those with same day and time
+  for (let i = 0; i < inputCheckboxes.length; i++) {
+    const element = inputCheckboxes[i];
+
+    // Get the day and time of each activity
+    const dayAndTime = inputCheckboxes[i].getAttribute('data-day-and-time');
+
+    // Esclude the activity selected
+    if (e.target.getAttribute('name') != element.getAttribute('name')) {
+      // Check for matches
+      if (dayAndTime == dayAndTimeSelected) {
+        // disable/enable depends on checked/unchecked activity
+        if (e.target.checked) {
+          element.disabled = true;
+          element.parentElement.classList.add('disabled');
+        } else {
+          element.disabled = false;
+          element.parentElement.classList.remove('disabled');
+        }
+      }
+    }
+  }
+  // Get the cost of the selected activity
   const singleCost = parseInt(e.target.getAttribute('data-cost'));
 
+  // Add or remove costs from the total cost
   if (e.target.checked) {
     totalCost += singleCost;
   } else {
@@ -191,9 +220,6 @@ form.addEventListener('submit', (e) => {
 });
 
 // ACCESSIBILITY
-
-// Collect all the checkboxes
-const inputCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 
 // Create a listener for focus and blur for every checkbox
 for (let i = 0; i < inputCheckboxes.length; i++) {
