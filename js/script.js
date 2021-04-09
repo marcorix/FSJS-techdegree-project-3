@@ -219,7 +219,7 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-// ACCESSIBILITY
+// ACCESSIBILITy
 
 // Create a listener for focus and blur for every checkbox
 for (let i = 0; i < inputCheckboxes.length; i++) {
