@@ -51,8 +51,10 @@ designSelect.addEventListener('change', (e) => {
 const registerFieldset = document.getElementById('activities');
 const activitiesTotalCost = document.getElementById('activities-cost');
 
+// Create a variable fot the total cost
 let totalCost = 0;
 
+// Add or remove costs from the total cost
 registerFieldset.addEventListener('change', (e) => {
   const singleCost = parseInt(e.target.getAttribute('data-cost'));
 
@@ -67,6 +69,7 @@ registerFieldset.addEventListener('change', (e) => {
 
 // PAYMENT INFO
 const creditcardDiv = document.getElementById('credit-card');
+
 // Show the chosen payment method
 paymentSelect.addEventListener('change', (e) => {
   if (e.target.value === 'paypal') {
@@ -93,36 +96,44 @@ const zipInput = document.getElementById('zip');
 const cvvInput = document.getElementById('cvv');
 
 function isValidName() {
+  // Create a Regex test
   const nameOk = /[a-z]/i.test(nameInput.value);
 
+  // Check if the Regex and call the relative function
   if (!nameOk) {
     notValid(nameInput);
   } else {
     valid(nameInput);
   }
+  // return true or false
   return nameOk;
 }
 
 function isValidEmail() {
+  // Create a Regex test
   const emailOk = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
+
+  // Check if the Regex and call the relative function
   if (!emailOk) {
     notValid(emailInput);
   } else {
     valid(emailInput);
   }
-
+  // return true or false
   return emailOk;
 }
 
 function isActivitySelected() {
   let activitySelected = false;
 
+  // If the total cost is 0 means no activity has been chacked
   if (totalCost === 0) {
     notValid(registerFieldset.firstElementChild);
   } else {
     valid(registerFieldset.firstElementChild);
     activitySelected = true;
   }
+  // return true or false
   return activitySelected;
 }
 
@@ -130,10 +141,12 @@ function isValidPayment() {
   let ccDataOk = true;
 
   if (paymentSelect.options[1].selected) {
+    // Create a Regex test
     let ccNumOk = /^\d{13,16}$/.test(ccNumInput.value);
     let zipOk = /^\d{5}$/.test(zipInput.value);
     let cvvOk = /^\d{3}$/.test(cvvInput.value);
 
+    // Check if the Regex and call the relative function
     if (!ccNumOk) {
       notValid(ccNumInput);
       ccDataOk = false;
@@ -155,15 +168,18 @@ function isValidPayment() {
       valid(cvvInput);
     }
   }
+  // return true or false
   return ccDataOk;
 }
 
 form.addEventListener('submit', (e) => {
+  // Call all the validation form functions
   isValidName();
   isValidEmail();
   isActivitySelected();
   isValidPayment();
 
+  // Prevent Submit if some of them (even one) are not valid
   if (
     !isValidName() ||
     !isValidEmail() ||
@@ -176,7 +192,10 @@ form.addEventListener('submit', (e) => {
 
 // ACCESSIBILITY
 
+// Collect all the checkboxes
 const inputCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+
+// Create a listener for focus and blur for every checkbox
 for (let i = 0; i < inputCheckboxes.length; i++) {
   const element = inputCheckboxes[i];
   element.addEventListener('focus', () => {
@@ -187,6 +206,7 @@ for (let i = 0; i < inputCheckboxes.length; i++) {
   });
 }
 
+// Highlights the form field with errors or valid styles
 function valid(element) {
   element.parentElement.classList.add('valid');
   element.parentElement.classList.remove('not-valid');
