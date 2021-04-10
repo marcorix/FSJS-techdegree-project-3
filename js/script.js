@@ -142,12 +142,26 @@ function isValidEmail() {
   // Create a Regex test
   const emailOk = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
 
-  // Check if the Regex and call the relative function
-  if (!emailOk) {
-    notValid(emailInput);
+  // Get the hint span
+  const errorSpan = document.getElementById('email-hint');
+
+  if (emailInput.value === '') {
+    // Change the text of the span if the email input is empty
+    emailInput.parentElement.lastElementChild.textContent =
+      'Please instert an Email address';
+    emailInput.parentElement.lastElementChild.style.display = 'block';
   } else {
-    valid(emailInput);
+    // Check the Regex and call the relative function
+    if (!emailOk) {
+      // Change the text of the hint span
+      emailInput.parentElement.lastElementChild.textContent =
+        'Email address must be formatted correctly';
+      notValid(emailInput);
+    } else {
+      valid(emailInput);
+    }
   }
+
   // return true or false
   return emailOk;
 }
@@ -243,3 +257,8 @@ function notValid(element) {
   element.parentElement.classList.remove('valid');
   element.parentElement.lastElementChild.style.display = 'block';
 }
+
+// Real-time error message
+emailInput.addEventListener('keyup', () => {
+  isValidEmail();
+});
