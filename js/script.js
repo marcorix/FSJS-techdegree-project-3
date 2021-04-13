@@ -18,10 +18,13 @@ window.addEventListener('load', () => {
 
 // BASIC INFO
 const jobRoleSelect = document.getElementById('title');
+
 // Show the other job role input only when selected
-title.addEventListener('change', (e) => {
+jobRoleSelect.addEventListener('change', (e) => {
   if (e.target.value === 'other') {
     otherJobInput.style.display = 'inline-block';
+  } else {
+    otherJobInput.style.display = 'none';
   }
 });
 
