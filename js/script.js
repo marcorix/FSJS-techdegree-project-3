@@ -34,12 +34,12 @@ const designSelect = document.getElementById('design');
 designSelect.addEventListener('change', (e) => {
   colorSelect.disabled = false;
 
-  //   loop trhouth the options of the Color select element
+  //   loop through the options of the Color select element
   for (let i = 0; i < colorSelect.options.length; i++) {
     const element = colorSelect.options[i];
     const theme = element.getAttribute('data-theme');
 
-    // Show only the deisgn selected
+    // Show only the design selected
     if (designSelect.value !== theme) {
       element.hidden = true;
       element.selected = false;
@@ -71,7 +71,7 @@ registerFieldset.addEventListener('change', (e) => {
     // Get the day and time of each activity
     const dayAndTime = inputCheckboxes[i].getAttribute('data-day-and-time');
 
-    // Esclude the activity selected
+    // Exclude the activity selected
     if (e.target.getAttribute('name') != element.getAttribute('name')) {
       // Check for matches
       if (dayAndTime == dayAndTimeSelected) {
@@ -100,21 +100,21 @@ registerFieldset.addEventListener('change', (e) => {
 });
 
 // PAYMENT INFO
-const creditcardDiv = document.getElementById('credit-card');
+const creditCardDiv = document.getElementById('credit-card');
 
 // Show the chosen payment method
 paymentSelect.addEventListener('change', (e) => {
   if (e.target.value === 'paypal') {
     paypalDiv.style.display = 'block';
-    creditcardDiv.style.display = 'none';
+    creditCardDiv.style.display = 'none';
     bitcoinDiv.style.display = 'none';
   } else if (e.target.value === 'bitcoin') {
     paypalDiv.style.display = 'none';
-    creditcardDiv.style.display = 'none';
+    creditCardDiv.style.display = 'none';
     bitcoinDiv.style.display = 'block';
   } else if (e.target.value === 'credit-card') {
     paypalDiv.style.display = 'none';
-    creditcardDiv.style.display = 'block';
+    creditCardDiv.style.display = 'block';
     bitcoinDiv.style.display = 'none';
   }
 });
@@ -151,7 +151,7 @@ function isValidEmail() {
   if (emailInput.value === '') {
     // Change the text of the span if the email input is empty
     emailInput.parentElement.lastElementChild.textContent =
-      'Please instert an Email address';
+      'Please insert an Email address';
     emailInput.parentElement.lastElementChild.style.display = 'block';
   } else {
     // Check the Regex and call the relative function
@@ -172,7 +172,7 @@ function isValidEmail() {
 function isActivitySelected() {
   let activitySelected = false;
 
-  // If the total cost is 0 means no activity has been chacked
+  // If the total cost is 0 means no activity has been checked
   if (totalCost === 0) {
     notValid(registerFieldset.firstElementChild);
   } else {
